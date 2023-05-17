@@ -17,13 +17,23 @@ function addTask() {
 function render() {
   let resultHTML = "";
   for (let i = 0; i < taskList.length; i++) {
-    resultHTML += `<div class="task">
-    <div>${taskList[i].taskContent}</div>
-      <div>
-        <button onclick="toggleComplete('${taskList[i].id}')">Check</button>
-        <button>Delete</button>
-      </div>
-    </div>`;
+    if (taskList[i].isComplete == true) {
+      resultHTML += `<div class="task">
+      <div class="task-done">${taskList[i].taskContent}</div>
+        <div>
+          <button onclick="toggleComplete('${taskList[i].id}')">Check</button>
+          <button onclick="deleteTask()">Delete</button>
+        </div>
+      </div>`;
+    } else {
+      resultHTML += `<div class="task">
+      <div>${taskList[i].taskContent}</div>
+        <div>
+          <button onclick="toggleComplete('${taskList[i].id}')">Check</button>
+          <button onclick="deleteTask()">Delete</button>
+        </div>
+      </div>`;
+    }
   }
   document.getElementById("task-board").innerHTML = resultHTML;
 }
@@ -31,11 +41,16 @@ function render() {
 function toggleComplete(id) {
   for (let i = 0; i < taskList.length; i++) {
     if (taskList[i].id == id) {
-      taskList[i].isComplete = true;
+      taskList[i].isComplete = !taskList[i].isComplete;
       break;
     }
   }
+  render();
   console.log(taskList);
+}
+
+function deleteTask() {
+  console.log("삭제하자.");
 }
 
 function randomIDGenerate() {
